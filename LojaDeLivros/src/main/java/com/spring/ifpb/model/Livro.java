@@ -3,6 +3,7 @@ package com.spring.ifpb.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,37 +16,35 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TB_Livro")
 public class Livro {
-	
+
 	@Id
-	@Column(name="id_livro")
+	@Column(name = "id_livro")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private Long id;
 
 	private String titulo;
-	
-	private long preco;
-	
-	@ManyToOne
+
+	private Long preco;
+
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Editora editora;
-	
-	@ManyToOne
+
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Categoria categoria;
-	
-	@ManyToMany
+
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<Autor> autores;
 
-	
 	public void addAutor(Autor a) {
-		autores=new ArrayList<>();
+		autores = new ArrayList<>();
 		autores.add(a);
 	}
-	
-	
-	public long getPreco() {
+
+	public Long getPreco() {
 		return preco;
 	}
 
-	public void setPreco(long preco) {
+	public void setPreco(Long preco) {
 		this.preco = preco;
 	}
 
@@ -65,11 +64,11 @@ public class Livro {
 		this.categoria = categorai;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -87,6 +86,6 @@ public class Livro {
 
 	public void setAutores(List<Autor> autores) {
 		this.autores = autores;
-	} 
+	}
 
 }

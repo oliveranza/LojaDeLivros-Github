@@ -10,6 +10,7 @@ public enum CategoriaLivro {
 	AUTO_AJUDA,
 	BIOGRAFIA,
 	CONTOS,
-	FABULAS
+	FABULAS,
+	FANTASIA;
 
 }

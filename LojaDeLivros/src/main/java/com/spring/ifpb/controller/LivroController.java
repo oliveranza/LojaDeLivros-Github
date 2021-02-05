@@ -1,7 +1,6 @@
 package com.spring.ifpb.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +27,7 @@ public class LivroController {
 	}
 	
 	@GetMapping("/{id}")
-	public Optional<Livro> buscarLivro(@PathVariable(value = "id")Integer id) {
+	public Livro buscarLivro(@PathVariable(value = "id")Long id) {
 		return livroRepository.findById(id);
 	}
 
@@ -45,7 +44,7 @@ public class LivroController {
 	}
 
 //	@DeleteMapping
-//	public String deleteById(Integer id) {
+//	public String deleteById(long id) {
 //		livroRepository.deleteById(id);
 //		return "Livro excluido com sucesso!";
 //	}

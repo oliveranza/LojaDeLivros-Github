@@ -3,11 +3,11 @@ package com.spring.ifpb.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.spring.ifpb.model.Autor;
+import com.spring.ifpb.model.Editora;
 
 @Repository
-public interface AutorRepository extends JpaRepository<Autor, Integer>{
-	
-	Autor findById(long id);
+public interface EditoraRepository extends JpaRepository<Editora, Integer>{
+
+	Editora findById(Long id);
 	
 }

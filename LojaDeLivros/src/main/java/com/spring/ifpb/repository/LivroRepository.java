@@ -8,6 +8,7 @@ import com.spring.ifpb.model.Livro;
 @Repository
 public interface LivroRepository extends JpaRepository<Livro, Integer>{
 
-//	Livro buscarLivro(Integer id);
+	Livro findById(Long id);
+//	void deleteById(long id);
 	
 }
