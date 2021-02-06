@@ -1,20 +1,24 @@
 package com.spring.ifpb;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.spring.ifpb.controller.AutorController;
+import com.spring.ifpb.controller.CategoriaController;
+import com.spring.ifpb.controller.EditoraController;
 import com.spring.ifpb.controller.LivroController;
 import com.spring.ifpb.model.Autor;
 import com.spring.ifpb.model.Categoria;
 import com.spring.ifpb.model.Editora;
 import com.spring.ifpb.model.Livro;
+import com.spring.ifpb.repository.LivroRepository;
 import com.spring.ifpb.resouces.CategoriaLivro;
 
 @SpringBootApplication
@@ -22,10 +26,37 @@ public class LojaDeLivrosApplication implements CommandLineRunner {
 
 	private LivroController lc;
 	private AutorController ac;
+	private EditoraController ec;
+	private CategoriaController cc;
+	private LivroRepository lr;
+	
+	public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+	public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+	public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+	public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+	public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+	public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+	
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_BLACK = "\u001B[30m";
+	public static final String ANSI_RED = "\u001B[31m";
+	public static final String ANSI_GREEN = "\u001B[32m";
+	public static final String ANSI_YELLOW = "\u001B[33m";
+	public static final String ANSI_BLUE = "\u001B[34m";
+	public static final String ANSI_PURPLE = "\u001B[35m";
+	public static final String ANSI_CYAN = "\u001B[36m";
+	public static final String ANSI_WHITE = "\u001B[37m";
+	
 
-	public LojaDeLivrosApplication(LivroController lv, AutorController ac) {
+	public LojaDeLivrosApplication(LivroController lv, AutorController ac, EditoraController ec, CategoriaController cc,
+			LivroRepository lr) {
 		this.lc = lv;
-		this.ac=ac;
+		this.ac = ac;
+		this.lr = lr;
+		this.ec = ec;
+		this.cc = cc;
 	}
 
 	public static void main(String[] args) {
@@ -34,41 +65,100 @@ public class LojaDeLivrosApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+
+		/*
+		 * criando e salvando instancias de autor, editora e categoria, para salvar no
+		 * bd e para poder atribuir a um livro para poder salva-lo no BD
+		 */
 		
 		Autor a = new Autor();
-		a.setNome("Ze bola");
-//		ac.salvarAutor(a);
-		
+		a.setId(1l);
+		a.setNome("Roger Pressman");
+		System.out.println(ac.salvarAutor(a));
+
 		Editora ed = new Editora();
 		ed.setNome("Atica");
+		ec.salvarLivro(ed);
 		
 		Categoria ct = new Categoria();
 		ct.setDescricao(CategoriaLivro.BIOGRAFIA);
+		cc.salvarCategoria(ct);
+//		
+
+		/*
+		 *  criando 4 instancias de livro para salvar no BD   
+		 */
+
+		Livro l1 = new Livro();
+		l1.setPreco(new BigDecimal(40.00));
+		l1.setTitulo("livro de teste 1");
+		l1.addAutor(a);
+		l1.setEditora(ed);
+		l1.setCategorai(ct);
+		lc.salvarLivro(l1);
+
+		Livro l2 = new Livro();
+		l2.setPreco(new BigDecimal(50.00));
+		l2.setTitulo("livro de teste 2");
+		l2.addAutor(a);
+		l2.setEditora(ed);
+		l2.setCategorai(ct);
+		lc.salvarLivro(l2);
 		
-		Livro l = new Livro();
-		l.setPreco(25l );
-		l.setTitulo("livro de teste");
-		l.addAutor(a);
-		l.setEditora(ed);
-		l.setCategorai(ct);
+		Livro l3 = new Livro();
+		l3.setPreco(new BigDecimal(45.00));
+		l3.setTitulo("livro de teste 3");
+		l3.addAutor(a);
+		l3.setEditora(ed);
+		l3.setCategorai(ct);
+		lc.salvarLivro(l3);
 		
-		lc.salvarLivro(l);
-		List<Livro> l1 = lc.listarLivros();
-		System.out.println("\n \n \n \nID:"+l1.get(0).getId());
-		System.out.println("TITULO: "+l1.get(0).getTitulo());
-		System.out.println("preco: "+l1.get(0).getPreco());
+		Livro l4 = new Livro();
+		l4.setPreco(new BigDecimal(50.00));
+		l4.setTitulo("livro de teste 4");
+		l4.addAutor(a);
+		l4.setEditora(ed);
+		l4.setCategorai(ct);
+		lc.salvarLivro(l4);
+
+
+
+		/*
+		 * variável para definir o numero da pagina que será exibida
+		 */
+		int numDaPag = 0;
+
+		/*
+		 * exibindo resultado de forma paginada e organizada por preço
+		 */
+		Pageable paginacao = PageRequest.of(numDaPag, 3, Sort.by(Sort.Direction.ASC, "preco"));
+		Page<Livro> livros = lr.findByPrecoLessThan(new BigDecimal(55), paginacao);
+		System.out.println(ANSI_RED+"_____________________________________________________________"+ANSI_RESET);
+		System.out.println(ANSI_GREEN+ livros);
+		System.out.println("Pagina atual: " + livros.getNumber());
+		System.out.println("total de elementos: " + livros.getTotalElements());
+		livros.forEach(livro -> System.out.println("id: " + livro.getId() + " - " + livro.getTitulo()+" - preço: "+ livro.getPreco()));
+		System.out.println(ANSI_RED+"-------------------------------------------------------------"+ANSI_RESET);
+
+		Livro livro1 = new Livro(); 			// criando livro para teste de e atualização e posteriormente exclusão
+		livro1.setId(3l);
+		lc.deleteLivro(livro1);					// excluir livro
 		
-//		PageRequest paginacao = PageRequest.of(0, 4, Sort.by(Sort.Direction.ASC, "id"));
-//		List<Livro> livros = lv.listarLivros();
-//		System.out.println(livros);
-//		System.out.println("Pagina atual: " + livros.getNumber());
-//		System.out.println("total de elementos: " + livros.getTotalElements());
-//		livros.forEach(Page -> System.out.println(Page));
-//		System.out.println(livros.toString());
+		livro1 = lc.buscarLivro(4l); 			// metodo de buscar livro no BD
+		livro1.setPreco(new BigDecimal(60));
+		lc.atualizarLivro(livro1); 				// alterar preco do livro
 
 		
-		
-		
+		/*
+		 * exibindo os livro apos exclusão e atualização
+		 */
+		livros = lr.findByPrecoLessThan(new BigDecimal(55), paginacao);
+		System.out.println(ANSI_RED+"_____________________________________________________________"+ANSI_RESET);
+		System.out.println(ANSI_GREEN+livros);
+		System.out.println("Pagina atual: " + livros.getNumber());
+		System.out.println("total de elementos: " + livros.getTotalElements());
+		livros.forEach(livro -> System.out.println("id: " + livro.getId() + " - " + livro.getTitulo()+" - preço: "+ livro.getPreco()));
+		System.out.println(ANSI_RED+"-------------------------------------------------------------"+ANSI_RESET);		
 		
 	}
 

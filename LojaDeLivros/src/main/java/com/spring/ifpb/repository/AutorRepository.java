@@ -9,5 +9,6 @@ import com.spring.ifpb.model.Autor;
 public interface AutorRepository extends JpaRepository<Autor, Integer>{
 	
 	Autor findById(long id);
+	Autor findByNome(String nome);
 	
 }

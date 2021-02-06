@@ -8,14 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_editora")
+@Table(name = "TB_EDITORA")
+
 public class Editora {
 
 	@Id
-	@Column(name="id_editora")
+	@Column(name = "ID_EDITORA")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
+	@Column(name= "NOME_EDITORA", unique = true)
 	private String nome;
 
 	
@@ -37,5 +39,5 @@ public class Editora {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 }

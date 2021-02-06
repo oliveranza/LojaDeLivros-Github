@@ -12,22 +12,25 @@ import javax.persistence.Table;
 import com.spring.ifpb.resouces.CategoriaLivro;
 
 @Entity
-@Table(name="tb_categoria")
+@Table(name="TB_CATEGORIA")
 public class Categoria {
 	
+	//ATRIBUTOS
+	
 	@Id
-	@Column(name="id_categoria")
+	@Column(name="ID_CATEGORIA")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(name="DESCRICAO_CATEGORIA", unique = true)
 	private CategoriaLivro descricao;
 
 	
 	
 	
 	
-	
+	//METODOS
 	
 	public Integer getId() {
 		return id;

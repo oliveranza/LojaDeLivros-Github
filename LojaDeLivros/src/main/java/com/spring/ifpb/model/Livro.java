@@ -1,9 +1,9 @@
 package com.spring.ifpb.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,33 +18,37 @@ import javax.persistence.Table;
 public class Livro {
 
 	@Id
-	@Column(name = "id_livro")
+	@Column(name = "ID_LIVRO")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	private String titulo;
 
-	private Long preco;
+	private BigDecimal preco;
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	private Editora editora;
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	private Categoria categoria;
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany
 	private List<Autor> autores;
 
+	
+	
+	
+	
 	public void addAutor(Autor a) {
 		autores = new ArrayList<>();
 		autores.add(a);
 	}
 
-	public Long getPreco() {
+	public BigDecimal getPreco() {
 		return preco;
 	}
 
-	public void setPreco(Long preco) {
+	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
 	}
 

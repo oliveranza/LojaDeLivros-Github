@@ -14,7 +14,7 @@ import com.spring.ifpb.model.Autor;
 import com.spring.ifpb.repository.AutorRepository;
 
 @Controller
-@RequestMapping(value="/Autor")
+@RequestMapping(value = "/Autor")
 public class AutorController {
 
 	@Autowired
@@ -24,17 +24,38 @@ public class AutorController {
 	public List<Autor> listarAutores() {
 		return autorRepository.findAll();
 	}
-	
+
 	@GetMapping("/{id}")
-	public Autor buscarAutor(@PathVariable(value = "id")Long id) {
+	public Autor buscarPeloId(@PathVariable(value = "id") Long id) {
 		return autorRepository.findById(id);
 	}
-	
-	public String salvarAutor(Autor a) {
-		autorRepository.save(a);
-		return "Autor Salvo!";
+
+	@GetMapping("/{nome}")
+	public Autor buscarPeloNome(@PathVariable(value = "nome") String nome) {
+		return autorRepository.findByNome(nome);
 	}
-	
+
+	public String salvarAutor(Autor a) {
+		if (validarAutor(a)) {
+			autorRepository.save(a);
+			return "Autor Salvo!";
+		} else
+			return "Já existe um Autor com esse mesmo nome ou id";
+	}
+
+	public boolean validarAutor(Autor a) {
+		try {
+			Autor a1 = buscarPeloId(a.getId());
+			return false;
+		} catch (Exception e) {
+			Autor a1 = buscarPeloNome(a.getNome());
+			if (a1 == null) {
+				return true;
+			} else
+				return false;
+		}
+	}
+
 	@DeleteMapping
 	public String deleteAutor(Autor a) {
 		autorRepository.delete(a);
@@ -46,11 +67,11 @@ public class AutorController {
 //		autorRepository.deleteById(id);
 //		return "Autor excluido com sucesso!";
 //	}
-	
+
 	@PutMapping
 	public String atualizarAutor(Autor a) {
 		autorRepository.save(a);
 		return "Autor Atualizado";
 	}
-	
+
 }
