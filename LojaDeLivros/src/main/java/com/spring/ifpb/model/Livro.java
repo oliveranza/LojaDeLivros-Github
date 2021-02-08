@@ -13,8 +13,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name = "TB_Livro")
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class Livro {
 
 	@Id
@@ -34,6 +38,9 @@ public class Livro {
 
 	@ManyToMany
 	private List<Autor> autores;
+	
+	@ManyToOne
+	private Prateleira prateleira;
 
 	
 	
