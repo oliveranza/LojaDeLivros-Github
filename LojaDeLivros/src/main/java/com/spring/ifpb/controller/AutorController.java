@@ -44,11 +44,11 @@ public class AutorController {
 	}
 
 	public boolean validarAutor(Autor a) {
-		try {
-			Autor a1 = buscarPeloId(a.getId());
-			return false;
-		} catch (Exception e) {
-			Autor a1 = buscarPeloNome(a.getNome());
+		Autor a1 = buscarPeloId(a.getId());
+		if (a1 == null)
+			return true;
+		else {
+			a1 = buscarPeloNome(a.getNome());
 			if (a1 == null) {
 				return true;
 			} else

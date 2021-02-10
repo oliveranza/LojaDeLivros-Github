@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.spring.ifpb.resouces.CategoriaLivro;
+import com.spring.ifpb.resources.CategoriaLivro;
 
 @Entity
 @Table(name="TB_CATEGORIA")

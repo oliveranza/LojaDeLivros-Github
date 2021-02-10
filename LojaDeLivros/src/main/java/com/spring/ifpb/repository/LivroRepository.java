@@ -1,7 +1,6 @@
 package com.spring.ifpb.repository;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +13,7 @@ import com.spring.ifpb.model.Livro;
 public interface LivroRepository extends JpaRepository<Livro, Integer>{
 
 	Livro findById(Long id);
-	List<Livro> findByTitulo(String titulo);
+	Livro findByTitulo(String titulo);
 	Page<Livro> findByPrecoLessThan(BigDecimal preco, Pageable paginacao);
 	
 }

@@ -38,18 +38,12 @@ public class UsuarioController {
 
 	@PostMapping
 	public String salvarUsuario(Usuario u) {
-//		try {
-			Usuario u1 = buscarUsuario(u.getCPF());
-			if (u1 == null) {
-				usuarioRepository.save(u);
-				return "usuario salvo";
-			} else
-				return "Esses Usuario já existe";
-
-//		} catch (Exception e) {
-//			usuarioRepository.save(u);
-//			return "Usuario Salvo com Sucesso!";
-//		}
+		Usuario u1 = buscarUsuario(u.getCPF());
+		if (u1 == null) {
+			usuarioRepository.save(u);
+			return "usuario salvo";
+		} else
+			return "Esses Usuario já existe";
 	}
 
 //	public boolean validarUsuario(Usuario u) {

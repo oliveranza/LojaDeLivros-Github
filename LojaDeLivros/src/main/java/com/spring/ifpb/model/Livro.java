@@ -29,6 +29,8 @@ public class Livro {
 	private String titulo;
 
 	private BigDecimal preco;
+	
+	private Integer qtd;
 
 	@ManyToOne
 	private Editora editora;
@@ -39,8 +41,8 @@ public class Livro {
 	@ManyToMany
 	private List<Autor> autores;
 	
-	@ManyToOne
-	private Prateleira prateleira;
+//	@ManyToOne
+//	private Prateleira prateleira;
 
 	
 	
@@ -59,6 +61,14 @@ public class Livro {
 		this.preco = preco;
 	}
 
+	public Integer getQtd() {
+		return qtd;
+	}
+
+	public void setQtd(Integer qtd) {
+		this.qtd = qtd;
+	}
+
 	public Editora getEditora() {
 		return editora;
 	}
@@ -67,13 +77,6 @@ public class Livro {
 		this.editora = editora;
 	}
 
-	public Categoria getCategorai() {
-		return categoria;
-	}
-
-	public void setCategorai(Categoria categorai) {
-		this.categoria = categorai;
-	}
 
 	public Long getId() {
 		return id;
@@ -99,4 +102,20 @@ public class Livro {
 		this.autores = autores;
 	}
 
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+//	public Prateleira getPrateleira() {
+//		return prateleira;
+//	}
+//
+//	public void setPrateleira(Prateleira prateleira) {
+//		this.prateleira = prateleira;
+//	}
+//	
 }

@@ -1,4 +1,4 @@
-package com.spring.ifpb.resouces;
+package com.spring.ifpb.resources;
 
 
 public enum CategoriaLivro {
